@@ -145,7 +145,7 @@ body::before{
   color: var(--parchment); border-radius: 50%;
   width: 40px; height: 40px; display: flex; align-items: center; justify-content: center;
   cursor: pointer; transition: background 0.2s, transform 0.2s;
-  flex-shrink: 0;
+  flex-shrink: 0; text-decoration: none; 
 }
 .icon-btn:hover{ background: rgba(201,162,75,0.15); transform: rotate(25deg); }
 .icon-btn:focus-visible, button:focus-visible, input:focus-visible{ outline: 2px solid var(--accent-bright); outline-offset: 2px; }
