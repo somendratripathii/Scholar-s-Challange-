@@ -486,3 +486,12 @@ input[type="range"]{ width: 130px; accent-color: var(--brass); }
 .credit-role{ font-size: 0.85rem; color: var(--accent-bright); font-style: italic; }
 
 .about-back-btn{ display: inline-flex; align-items: center; justify-content: center; text-align: center; text-decoration: none; }
+@media (max-width: 480px){
+  .topbar{ padding: 8px 12px; gap: 8px; }
+  .stat-strip{ gap: 12px; }
+  .stat{ min-width: 36px; }
+  .stat-label{ font-size: 0.56rem; }
+  .stat-value{ font-size: 1rem; }
+  .icon-btn{ width: 34px; height: 34px; }
+  .brand-mark{ font-size: 18px; }
+     }
