@@ -1,0 +1,13 @@
+{
+  "name": "The Scholar's Challenge",
+  "short_name": "Scholar's Challenge",
+  "description": "A candlelit mental arithmetic training game.",
+  "start_url": "./index.html",
+  "display": "standalone",
+  "background_color": "#241914",
+  "theme_color": "#241914",
+  "orientation": "portrait-primary",
+  "icons": [
+    { "src": "icons/icon.svg", "sizes": "any", "type": "image/svg+xml" }
+  ]
+}

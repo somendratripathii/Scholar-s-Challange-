@@ -1,0 +1,209 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1, user-scalable=no">
+<title>The Scholar's Challenge — A Mental Arithmetic Study</title>
+<meta name="description" content="An elegant mental-math training game set in a candlelit university hall.">
+<meta name="theme-color" content="#241914">
+<link rel="manifest" href="manifest.json">
+<link rel="icon" href="icons/icon.svg" type="image/svg+xml">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,500;0,600;0,700;1,500&family=EB+Garamond:ital,wght@0,400;0,500;0,600;1,400&family=Spectral:wght@500;600;700&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="css/styles.css">
+</head>
+<body>
+
+<!-- Ambient canvas background: dust motes, candlelight, rain -->
+<canvas id="bg-canvas" aria-hidden="true"></canvas>
+<div class="vignette" aria-hidden="true"></div>
+<div class="window-rain" id="window-rain" aria-hidden="true"></div>
+
+<div class="hall" id="hall">
+
+  <!-- ================= TOP BAR ================= -->
+  <header class="topbar">
+    <div class="brand">
+      <span class="brand-mark" aria-hidden="true">✒</span>
+      <h1>The Scholar's&nbsp;Challenge</h1>
+    </div>
+
+    <div class="stat-strip" role="status" aria-live="polite">
+      <div class="stat">
+        <span class="stat-label">Score</span>
+        <span class="stat-value" id="stat-score">0</span>
+      </div>
+      <div class="stat">
+        <span class="stat-label">Level</span>
+        <span class="stat-value" id="stat-level">1</span>
+      </div>
+      <div class="stat combo-stat" id="combo-stat" hidden>
+        <span class="stat-label">Combo</span>
+        <span class="stat-value" id="stat-combo">0</span>
+      </div>
+    </div>
+
+    <button class="icon-btn" id="settings-btn" aria-label="Open settings" aria-haspopup="dialog">
+      <svg viewBox="0 0 24 24" width="22" height="22" aria-hidden="true"><path fill="currentColor" d="M12 8.5A3.5 3.5 0 1 0 12 15.5 3.5 3.5 0 0 0 12 8.5zm8.94 2.5-1.2-.1a7.8 7.8 0 0 0-.5-1.2l.77-.94a1 1 0 0 0-.09-1.35l-1.03-1.03a1 1 0 0 0-1.35-.09l-.94.77c-.38-.2-.78-.37-1.2-.5l-.1-1.2A1 1 0 0 0 14.3 4h-1.46a1 1 0 0 0-1 .92l-.1 1.2c-.42.13-.82.3-1.2.5l-.94-.77a1 1 0 0 0-1.35.09L6.22 6.97a1 1 0 0 0-.09 1.35l.77.94c-.2.38-.37.78-.5 1.2l-1.2.1a1 1 0 0 0-.9 1v1.46a1 1 0 0 0 .9 1l1.2.1c.13.42.3.82.5 1.2l-.77.94a1 1 0 0 0 .09 1.35l1.03 1.03a1 1 0 0 0 1.35.09l.94-.77c.38.2.78.37 1.2.5l.1 1.2a1 1 0 0 0 1 .9h1.46a1 1 0 0 0 1-.9l.1-1.2c.42-.13.82-.3 1.2-.5l.94.77a1 1 0 0 0 1.35-.09l1.03-1.03a1 1 0 0 0 .09-1.35l-.77-.94c.2-.38.37-.78.5-1.2l1.2-.1a1 1 0 0 0 .9-1v-1.46a1 1 0 0 0-.9-1z"/></svg>
+    </button>
+  </header>
+
+  <!-- ================= MAIN MENU ================= -->
+  <section class="scene" id="scene-menu">
+    <div class="desk-card menu-card">
+      <p class="eyebrow">An old university hall, by candlelight</p>
+      <h2 class="scene-title">Take your seat, Scholar</h2>
+      <p class="menu-lede">Sharpen your mental arithmetic through thirteen levels of escalating difficulty — from simple sums to compound expressions of squares, cubes and BODMAS.</p>
+
+      <div class="menu-grid">
+        <button class="wax-btn wax-btn--primary" id="btn-start-levels">
+          <span class="wax-btn-title">Begin the Curriculum</span>
+          <span class="wax-btn-sub">Level 1 → onward</span>
+        </button>
+        <button class="wax-btn" id="btn-daily">
+          <span class="wax-btn-title">Daily Challenge</span>
+          <span class="wax-btn-sub" id="daily-sub">Today's set questions</span>
+        </button>
+        <button class="wax-btn" id="btn-practice">
+          <span class="wax-btn-title">Practice a Subject</span>
+          <span class="wax-btn-sub">Choose your discipline</span>
+        </button>
+        <button class="wax-btn" id="btn-endless">
+          <span class="wax-btn-title">Endless Study</span>
+          <span class="wax-btn-sub">No end, ever-rising difficulty</span>
+        </button>
+      </div>
+
+      <div class="ledger">
+        <div class="ledger-item"><span>Best Score</span><strong id="ledger-best">0</strong></div>
+        <div class="ledger-item"><span>Accuracy</span><strong id="ledger-accuracy">—</strong></div>
+        <div class="ledger-item"><span>Solved</span><strong id="ledger-solved">0</strong></div>
+        <div class="ledger-item"><span>Time Studied</span><strong id="ledger-time">0m</strong></div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ================= PRACTICE PICKER ================= -->
+  <section class="scene" id="scene-practice" hidden>
+    <div class="desk-card">
+      <p class="eyebrow">Practice Mode</p>
+      <h2 class="scene-title">Choose a discipline</h2>
+      <div class="subject-grid" id="subject-grid"><!-- injected --></div>
+      <button class="text-btn" id="practice-back">← Return to the hall</button>
+    </div>
+  </section>
+
+  <!-- ================= GAME SCENE ================= -->
+  <section class="scene" id="scene-game" hidden>
+    <div class="game-card" id="game-card">
+
+      <div class="level-banner" id="level-banner">Level 1 · Addition</div>
+
+      <div class="question-stage">
+        <div class="page" id="question-page">
+          <p class="question-text" id="question-text">7 + 5</p>
+          <div class="seal" id="seal" aria-hidden="true">
+            <svg viewBox="0 0 100 100"><circle cx="50" cy="50" r="46"/><path id="seal-mark" d=""/></svg>
+          </div>
+        </div>
+      </div>
+
+      <form id="answer-form" class="answer-row" autocomplete="off">
+        <input
+          type="text"
+          inputmode="numeric"
+          pattern="-?[0-9]*"
+          id="answer-input"
+          class="answer-input"
+          placeholder="Your answer…"
+          aria-label="Type your answer">
+        <button type="submit" class="wax-btn wax-btn--primary submit-btn">Submit</button>
+      </form>
+
+      <div class="feedback" id="feedback" aria-live="polite"></div>
+
+      <div class="timer-wrap">
+        <div class="timer-track"><div class="timer-fill" id="timer-fill"></div></div>
+      </div>
+
+      <div class="progress-row">
+        <span id="progress-label">Question 1</span>
+        <button class="text-btn" id="quit-btn">End session</button>
+      </div>
+    </div>
+  </section>
+
+  <!-- ================= SUMMARY SCENE ================= -->
+  <section class="scene" id="scene-summary" hidden>
+    <div class="desk-card">
+      <p class="eyebrow" id="summary-eyebrow">Session concluded</p>
+      <h2 class="scene-title" id="summary-title">Well studied.</h2>
+      <div class="ledger">
+        <div class="ledger-item"><span>Score</span><strong id="summary-score">0</strong></div>
+        <div class="ledger-item"><span>Best Combo</span><strong id="summary-combo">0</strong></div>
+        <div class="ledger-item"><span>Accuracy</span><strong id="summary-accuracy">0%</strong></div>
+        <div class="ledger-item"><span>Solved</span><strong id="summary-solved">0</strong></div>
+      </div>
+      <div id="unlock-banner" class="unlock-banner" hidden></div>
+      <div class="menu-grid two-col">
+        <button class="wax-btn wax-btn--primary" id="summary-again">Study again</button>
+        <button class="wax-btn" id="summary-home">Return to the hall</button>
+      </div>
+    </div>
+  </section>
+
+</div>
+
+<!-- ================= LEVEL UP TOAST ================= -->
+<div class="toast" id="level-toast" hidden>
+  <span class="toast-title">Level Ascended</span>
+  <span class="toast-sub" id="toast-sub">Level 2 · Subtraction</span>
+</div>
+
+<!-- ================= COMBO FLARE ================= -->
+<div class="combo-flare" id="combo-flare" hidden></div>
+
+<!-- ================= SETTINGS DIALOG ================= -->
+<div class="modal-backdrop" id="settings-backdrop" hidden>
+  <div class="modal" role="dialog" aria-modal="true" aria-labelledby="settings-title">
+    <h2 id="settings-title">Study Preferences</h2>
+
+    <div class="setting-row">
+      <label for="music-toggle">Ambient music</label>
+      <button class="switch" id="music-toggle" role="switch" aria-checked="true"><span></span></button>
+    </div>
+    <div class="setting-row">
+      <label for="volume-slider">Volume</label>
+      <input type="range" id="volume-slider" min="0" max="100" value="45">
+    </div>
+    <div class="setting-row">
+      <label for="sfx-toggle">Sound effects</label>
+      <button class="switch" id="sfx-toggle" role="switch" aria-checked="true"><span></span></button>
+    </div>
+    <div class="setting-row">
+      <label for="rain-toggle">Rain on the windows</label>
+      <button class="switch" id="rain-toggle" role="switch" aria-checked="true"><span></span></button>
+    </div>
+
+    <div class="setting-block">
+      <span class="setting-block-label">Desk theme</span>
+      <div class="theme-swatches" id="theme-swatches"><!-- injected --></div>
+    </div>
+
+    <div class="setting-block">
+      <span class="setting-block-label">Badges earned</span>
+      <div class="badge-row" id="badge-row"><!-- injected --></div>
+    </div>
+
+    <button class="wax-btn wax-btn--primary" id="settings-close">Close</button>
+  </div>
+</div>
+
+<script src="js/storage.js"></script>
+<script src="js/particles.js"></script>
+<script src="js/audio.js"></script>
+<script src="js/questions.js"></script>
+<script src="js/game.js"></script>
+</body>
+</html>
