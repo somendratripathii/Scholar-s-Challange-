@@ -114,6 +114,8 @@ body::before{
   display: flex;
   align-items: center;
   justify-content: space-between;
+  flex-wrap: wrap;
+  row-gap: 8px;
   gap: 12px;
   padding: 10px 18px;
   margin-bottom: 22px;
