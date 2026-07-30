@@ -319,7 +319,8 @@ body::before{
 
 .answer-row{ display: flex; gap: 10px; max-width: 560px; margin: 0 auto 8px; }
 .answer-input{
-  flex: 1;
+  flex: 1; 
+min-width: 0;
   font-family: var(--font-number);
   font-size: 1.3rem;
   padding: 14px 16px;
