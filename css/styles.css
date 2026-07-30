@@ -339,8 +339,12 @@ min-width: 0;
   60%{ transform: translateX(-5px); }
   80%{ transform: translateX(5px); }
 }
-.submit-btn{ padding: 14px 22px; text-align: center; align-items: center; justify-content: center; }
-.submit-btn .wax-btn-title{ font-size: 1rem; }
+.submit-btn{ padding: 14px 22px; text-align: center; align-items: center; justify-content: center; flex-shrink: 0; }
+.submit-btn .wax-btn-title{ font-size: 1rem; white-space: nowrap; }
+@media (max-width: 380px){
+  .submit-btn{ padding: 14px 14px; }
+  .answer-input{ font-size: 1.1rem; padding: 14px 10px; }
+}
 
 .feedback{ min-height: 26px; text-align: center; font-family: var(--font-display); font-size: 1.05rem; margin-bottom: 10px; }
 .feedback.good{ color: #8fc19c; }
