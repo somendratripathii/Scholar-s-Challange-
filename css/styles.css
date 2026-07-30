@@ -43,7 +43,7 @@ body[data-theme="brass"]{ --accent: var(--brass); --accent-bright: var(--brass-b
 @media (prefers-reduced-motion: reduce){
   *, *::before, *::after{ animation-duration: 0.001ms !important; animation-iteration-count: 1 !important; transition-duration: 0.001ms !important; }
 }
-
+[hidden]{ display: none !important; }
 *{ box-sizing: border-box; }
 html, body{ height: 100%; }
 body{
